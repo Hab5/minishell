@@ -29,12 +29,12 @@ char *search_env(char *var)
     return (line);
 }
 
-int print_env()
+int print_env(char **env)
 {
     int i;
 
     i = -1;
-    while(g_env[++i])
-        ft_putendl(g_env[i]);
+    while(env[++i])
+        ft_putendl(env[i]);
     return(1);
 }

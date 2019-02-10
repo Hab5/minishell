@@ -34,6 +34,8 @@ char                    **split_input(char *input, char **cmd);
 
 void                    get_paths(char **env, char ***bin);
 char                    *look_in_path(char **cmd, char **env);
+void                    run(char *binpath, char **cmd, char **env, pid_t pid);
+int                     check_current(char **cmd, pid_t pid);
 int                     check_builtin(char **cmd, char **env);
 int                     execute(char **cmd, char **env);
 
@@ -41,8 +43,12 @@ char                    *search_env(char *var);
 int                     print_env();
 void                    init_env(char **env);
 
+int                     echo(char **cmd);
+int                     cd_builtin(char **cmd, char **env);
 
-
+void                    welcome();
+void                    prompt_mod(char **promptpath, int i, char cwd[]);
+void                    print_prompt();
 void                    free_arr(char **cmd);
 
 

@@ -5,11 +5,11 @@ int             check_builtin(char **cmd, char **env)
     if(ft_strequ(cmd[0], "exit"))
         exit (1);
     if(ft_strequ(cmd[0], "echo"))
-        {printf("echo not here yet\n");return (1);}
+        return(echo(cmd)); 
     if(ft_strequ(cmd[0], "cd"))
-        {printf("cd not here yet\n");return (1);}
+        return(cd_builtin(cmd, env));
     if(ft_strequ(cmd[0], "env"))  
-            return(print_env());
+            return(print_env(env));
     if(ft_strequ(cmd[0], "setenv"))
         {printf("setenv not here yet\n");return (1);}
     if(ft_strequ(cmd[0], "unsetenv"))
@@ -46,6 +46,7 @@ char            *look_in_path(char **cmd, char **env)
         if(!(stat(binpath, &st)) && (st.st_mode & S_IXUSR))
             break;
         free(binpath);
+        //free(g_env);
         binpath = NULL;
     }
     bin[0] -= 5;
@@ -53,31 +54,34 @@ char            *look_in_path(char **cmd, char **env)
     return (binpath != NULL) ? binpath : NULL;
 }
 
-int             execute(char **cmd, char **env)
+void             run(char *binpath, char **cmd, char **env, pid_t pid)
 {
-    pid_t       pid;
-    char        *binpath;
-    
-    if(check_builtin(cmd, env) != 0)
-        return(1); 
-    if ((binpath = look_in_path(cmd, env)) == NULL)
-    {
-        printf("minishell: command not found: %s\n", cmd[0]);
-        return (-1);
-    }
     pid = fork();
     if (pid == 0)
     {
-        if (execve(binpath, cmd, env) < 0)
-            printf("exec fail\n");
+        execve(binpath, cmd, env);
         exit(0);
     }
     else if (pid < 0)
+        ft_putstr("fork() failed.\n");
+}
+
+int             check_current(char **cmd, pid_t pid)
+{
+    struct stat st;
+
+    if(!(stat(cmd[0], &st)) && (st.st_mode & S_IXUSR))
     {
-        printf("fork fail\n");
-        return (-1);
+        pid = fork();
+        if (pid == 0)
+        {
+            execve(cmd[0], cmd, 0);
+            exit(0);
+        }
+        else if (pid < 0)
+            ft_putstr("fork() failed.\n");
+        wait(&pid);
+        return(1);
     }
-    free(binpath);
-    wait(&pid);
-    return (1);
+    return (-1);
 }
