@@ -3,15 +3,25 @@
 int     echo(char **cmd) //NOPE
 {
     int i;
+    int j;
 
     i = 0;
-    while(cmd[++i])
+    j = 0;
+    if(ft_strequ(cmd[1], "-n"))
+        i++;
+    while (cmd[++i])
     {
-        ft_putstr(cmd[i]);
+        while(cmd[i][j] != '\0')
+        {
+            if(!(cmd[i][j] == '\'' || cmd[i][j] == '"'))
+                ft_putchar(cmd[i][j]);
+            j++;
+        }
         ft_putstr(" ");
+        j = 0;
     }
     ft_putstr("\n");
-    return(1);
+    return (1);
 }
 
 int     cd_builtin(char **cmd, char **env)

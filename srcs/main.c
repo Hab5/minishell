@@ -9,7 +9,7 @@ char        **usr_prompt(char **cmd, char **env)
     input = NULL;
     cmd = NULL;
     print_prompt();
-    if ((get_next_line(0, &input) != -1))
+    if ((get_next_line(0, &input) != -1) && !ft_strequ(input, ""))
     {
         cleaninput = clean_input(input);
         cmd = split_input(cleaninput, cmd);
