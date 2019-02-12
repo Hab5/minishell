@@ -5,15 +5,15 @@ int             check_builtin(char **cmd, char **env)
     if(ft_strequ(cmd[0], "exit"))
         exit (1);
     if(ft_strequ(cmd[0], "echo"))
-        return(echo(cmd)); 
+        return(echo(cmd, g_env));
     if(ft_strequ(cmd[0], "cd"))
-        return(cd_builtin(cmd, env));
+        return(cd_builtin(cmd, g_env));
     if(ft_strequ(cmd[0], "env"))  
-            return(print_env(env));
+            return(env_builtin(cmd, g_env));
     if(ft_strequ(cmd[0], "setenv"))
-        {printf("setenv not here yet\n");return (1);}
+        return (setenv_builtin(cmd, g_env));
     if(ft_strequ(cmd[0], "unsetenv"))
-        {printf("unsetenv not here yet\n");return (1);}
+        return (unsetenv_builtin(cmd, g_env));
     return(0);
 }
 
@@ -21,10 +21,8 @@ void            get_paths(char **env, char ***bin)
 {
     char        *pathline;
     
-    init_env(env);
     pathline = search_env("PATH");
     *bin = ft_strsplit(pathline, ':');
-    free_arr(g_env);
     free(pathline);
 }
 
@@ -35,7 +33,7 @@ char            *look_in_path(char **cmd, char **env)
     char        *temp;
     char        *binpath;
 
-    get_paths(env, &bin);
+    get_paths(g_env, &bin);
     bin[0] += 5;
     int i = -1;
     while(bin[++i])
@@ -46,7 +44,6 @@ char            *look_in_path(char **cmd, char **env)
         if(!(stat(binpath, &st)) && (st.st_mode & S_IXUSR))
             break;
         free(binpath);
-        //free(g_env);
         binpath = NULL;
     }
     bin[0] -= 5;

@@ -42,8 +42,11 @@ int                     execute(char **cmd, char **env);
 char                    *search_env(char *var);
 int                     print_env();
 void                    init_env(char **env);
+int                     setenv_builtin(char **cmd, char **env);
+int                     unsetenv_builtin(char **cmd, char **env);
+int                     env_builtin(char **cmd, char **env);
 
-int                     echo(char **cmd);
+int                     echo(char **cmd, char **env);
 int                     cd_builtin(char **cmd, char **env);
 
 void                    welcome();

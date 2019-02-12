@@ -1,8 +1,7 @@
 #include "../include/minishell.h"
 
-char        **usr_prompt(char **cmd, char **env)
+char        **usr_prompt(char **cmd)
 {
-    int     ret;
     char    *input;
     char    *cleaninput;
 
@@ -26,6 +25,7 @@ int             execute(char **cmd, char **env)
     pid_t       pid;
     char        *binpath;
     
+    pid = 0;
     if(check_builtin(cmd, env) != 0)
         return (1); 
     if(check_current(cmd, pid) > 0)
@@ -49,10 +49,14 @@ int         main(int argc, char **argv, char **env)
 {
     char    **cmd;
     
+    (void)argc;
+    (void)argv;
+    cmd = NULL;
     welcome();
+    init_env(env);
     while (1)
 	{
-        cmd = usr_prompt(cmd, env);
+        cmd = usr_prompt(cmd);
         if (cmd)
         {   
             execute(cmd, env);
