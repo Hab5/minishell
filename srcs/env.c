@@ -73,15 +73,11 @@ int unsetenv_builtin(char **cmd, char **env)
 
 int env_builtin(char **cmd, char **env)
 {
-    int i;
-    int j;
-    
-    i = -1;
-    j = 0;
-    while (cmd[++i])
+    if (cmd[1])
     {
-        if (!cmd[1])
-            print_env(g_env);
-    }
+        ft_putstr("Too many arguments.\n");
+        return (1);
+    }   
+    print_env(g_env);
     return (1);
 }
