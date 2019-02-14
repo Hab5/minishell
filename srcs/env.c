@@ -29,8 +29,14 @@ int setenv_builtin(char **cmd, char **env)
     }
     if (set(cmd) > 0)
         return (1);
-    ft_putstr(cmd[1]);
-    ft_putstr(" does not exist.\n");
+    int i = 0;
+    while(g_env[i])
+        i++;
+    char *temp;
+    temp = ft_strjoin(cmd[1], "=");
+    g_env[i] = ft_strjoin(temp, cmd[2]);
+    g_env[i + 1] = NULL;
+    free(temp);
     return (1);
 }
 

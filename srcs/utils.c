@@ -59,7 +59,7 @@ void	init_env(char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	g_env = (char **)malloc(sizeof(char *) * (i + 1));
+	g_env = (char **)malloc(sizeof(char *) * (i + 10));
 	g_env[i] = NULL;
 	i = -1;
 	while (env[++i])
