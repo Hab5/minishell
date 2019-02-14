@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-char	*clean_input(char *input)
+char		*clean_input(char *input)
 {
 	char	*cleanstr;
 	char 	*temp;
@@ -35,7 +35,7 @@ char        **split_input(char *input, char **cmd)
     int     i;
 
     i = 0;
-    while(input[i])
+    while (input[i])
         i++;
     cmd = ft_strsplit(input, ' ');
     cmd[i] = NULL;

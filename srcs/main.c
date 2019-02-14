@@ -3,7 +3,7 @@
 void        prompt_mod(char **promptpath, int i, char cwd[])
 {
     ft_putstr("\033[1;32m");
-    if(i > 2)
+    if (i > 2)
     {
         ft_putstr("[");
         ft_putstr(promptpath[i-2]);
@@ -31,7 +31,7 @@ void        print_prompt()
     getcwd(cwd, 1023);
     promptpath = ft_strsplit(cwd, '/');
     i = 0;
-    while(promptpath[i])
+    while (promptpath[i])
         i++;
     prompt_mod(promptpath, i, cwd);
     free_arr(promptpath);
@@ -63,11 +63,11 @@ int             execute(char **cmd, char **env)
     char        *binpath;
     
     pid = 0;
-    if(check_builtin(cmd, env) != 0)
+    if(check_builtin(cmd) != 0)
         return (1); 
     if(check_current(cmd, pid) > 0)
         return (1);
-    if ((binpath = look_in_path(cmd, env)) == NULL)
+    if ((binpath = look_in_path(cmd)) == NULL)
     {
         if(cmd[0])
         {

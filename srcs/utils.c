@@ -2,16 +2,24 @@
 
 void welcome()
 {
-    int c;
-    FILE *file;
-    file = fopen("welcome", "r");
     ft_putstr("\033[1;32m");
-    if (file)
-    {
-        while ((c = getc(file)) != EOF)
-            ft_putchar(c);
-    fclose(file);
-    }
+    ft_putstr("    __  ________   ___________ __  __________    __ \n");
+    usleep(100000);
+    ft_putstr("   /  |/  /  _/ | / /  _/ ___// / / / ____/ /   / / \n");
+    usleep(100000);
+    ft_putstr("  / /|_/ // //  |/ // / \\__ \\/ /_/ / __/ / /   / /\n");
+    usleep(100000);
+    ft_putstr(" / /  / // // /|  // / ___/ / __  / /___/ /___/ /___\n");
+    usleep(100000);
+    ft_putstr("/_/  /_/___/_/ |_/___//____/_/ /_/_____/___________/\n");
+    usleep(100000);
+    ft_putstr("                                        / // /|__ \\\n");
+    usleep(100000);
+    ft_putstr("                                       / // /___/ / \n");
+    usleep(100000);
+    ft_putstr("                                      /__  __/ __/  \n");
+    usleep(100000);
+    ft_putstr("                                        /_/ /____/  \n");
     ft_putstr("\033[0m");
 }
 
@@ -36,9 +44,9 @@ char *search_env(char *var)
 
     line = NULL;
     i = -1;
-    while(g_env[++i])
+    while (g_env[++i])
     {
-        if(ft_strstr(g_env[i], var) != 0)
+        if (ft_strstr(g_env[i], var) != 0)
             line = ft_strdup(g_env[i]);
     }
     return (line);
@@ -49,9 +57,9 @@ int print_env(char **env)
     int i;
 
     i = -1;
-    while(env[++i])
+    while (env[++i])
         ft_putendl(env[i]);
-    return(1);
+    return (1);
 }
 
 void free_arr(char **cmd)

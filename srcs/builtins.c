@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int         echo_path(char **cmd, int i, char **env)
+int         echo_path(char **cmd, int i)
 {
     char    *var;
     
@@ -23,9 +23,9 @@ int         echo_path(char **cmd, int i, char **env)
 
 void        echo_basic(char **cmd, int i, int j)
 {
-    while(cmd[i][j] != '\0')
+    while (cmd[i][j] != '\0')
     {
-        if(!(cmd[i][j] == '\'' || cmd[i][j] == '"'))
+        if (!(cmd[i][j] == '\'' || cmd[i][j] == '"'))
             ft_putchar(cmd[i][j]);
         j++;
     }
@@ -33,18 +33,18 @@ void        echo_basic(char **cmd, int i, int j)
     j = 0;
 }
 
-int         echo(char **cmd, char **env)
+int         echo(char **cmd)
 {
     int     i;
     int     j;
 
     i = 0;
     j = 0;
-    if(ft_strequ(cmd[1], "-n"))
+    if (ft_strequ(cmd[1], "-n"))
         i++;
     while (cmd[++i])
     {
-        if(echo_path(cmd, i, env) != 1)
+        if (echo_path(cmd, i) != 1)
         {
             echo_basic(cmd, i, j);
         }
@@ -54,13 +54,13 @@ int         echo(char **cmd, char **env)
     return (1);
 }
 
-int         cd_builtin(char **cmd, char **env)
+int         cd_builtin(char **cmd)
 {
     char    *home;
 
-    if(cmd[1] && !ft_strequ(cmd[1], "~") && !ft_strequ(cmd[1], "-"))
+    if (cmd[1] && !ft_strequ(cmd[1], "~") && !ft_strequ(cmd[1], "-"))
     {
-        if(chdir(cmd[1]))
+        if (chdir(cmd[1]))
         {
             ft_putstr("cd: no such file or directory: ");
             ft_putendl(cmd[1]);

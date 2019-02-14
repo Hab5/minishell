@@ -1,6 +1,6 @@
 .PHONY: all, $(NAME), clean, fclean, re
 
-NAME = ft_ls
+NAME = minishell
 
 NOC=\033[0m
 OKC=\033[32m
@@ -8,7 +8,7 @@ ERC=\033[31m
 WAC=\033[33m
 
 cc = gcc
-C_FLAGS = -Wall -Wextra -Werror
+C_FLAGS = -Wall -Wextra -Werror -g3
 FRAM = 
 
 OBJ_PATH = ./obj/
@@ -17,8 +17,8 @@ INC_PATH = ./include/
 SRC_PATH = ./srcs/
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
-INC_NAME = ft_ls.h
-SRC_NAME = parser.c list.c print_tools.c sort.c utils.c print.c main.c
+INC_NAME = minishell.h
+SRC_NAME = builtins.c env.c exec.c get_next_line.c main.c parser.c utils.c
 
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
@@ -30,7 +30,7 @@ $(NAME): $(OBJ)
 		@echo
 		@make -C $(LFT_PATH)
 		@$(CC) -o $(NAME) -L $(LFT_PATH) -lft $^ -o $@
-		@echo "\033[32mFT_LS ready.\033[0m"
+		@echo "\033[32mMinishell ready.\033[0m"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 		@mkdir -p $(OBJ_PATH) 2> /dev/null || true
@@ -45,6 +45,6 @@ clean:
 fclean: clean
 		@make -C $(LFT_PATH) fclean
 		@rm -f $(NAME)
-		@echo "\x1b[31mSUCESSFULLY CLEANED FT_LS\x1b[31m"
+		@echo "\x1b[31mSUCESSFULLY CLEANED MINISHELL\x1b[31m"
 
 re: fclean all

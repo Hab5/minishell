@@ -1,23 +1,23 @@
 #include "../include/minishell.h"
 
-int             check_builtin(char **cmd, char **env)
+int             check_builtin(char **cmd)
 {
-    if(ft_strequ(cmd[0], "exit"))
+    if (ft_strequ(cmd[0], "exit"))
         exit (1);
-    if(ft_strequ(cmd[0], "echo"))
-        return(echo(cmd, g_env));
-    if(ft_strequ(cmd[0], "cd"))
-        return(cd_builtin(cmd, g_env));
-    if(ft_strequ(cmd[0], "env"))  
-            return(env_builtin(cmd, g_env));
-    if(ft_strequ(cmd[0], "setenv"))
-        return (setenv_builtin(cmd, g_env));
-    if(ft_strequ(cmd[0], "unsetenv"))
-        return (unsetenv_builtin(cmd, g_env));
+    if (ft_strequ(cmd[0], "echo"))
+        return (echo(cmd));
+    if (ft_strequ(cmd[0], "cd"))
+        return (cd_builtin(cmd));
+    if (ft_strequ(cmd[0], "env"))  
+            return (env_builtin(cmd));
+    if (ft_strequ(cmd[0], "setenv"))
+        return (setenv_builtin(cmd));
+    if (ft_strequ(cmd[0], "unsetenv"))
+        return (unsetenv_builtin(cmd));
     return(0);
 }
 
-void            get_paths(char **env, char ***bin)
+void            get_paths(char ***bin)
 {
     char        *pathline;
     
@@ -26,22 +26,22 @@ void            get_paths(char **env, char ***bin)
     free(pathline);
 }
 
-char            *look_in_path(char **cmd, char **env)
+char            *look_in_path(char **cmd)
 {
     struct stat st;
     char        **bin;
     char        *temp;
     char        *binpath;
 
-    get_paths(g_env, &bin);
+    get_paths(&bin);
     bin[0] += 5;
     int i = -1;
-    while(bin[++i])
+    while (bin[++i])
     {
         temp = ft_strjoin(bin[i], "/");
         binpath = ft_strjoin(temp, cmd[0]);
         free(temp);
-        if(!(stat(binpath, &st)) && (st.st_mode & S_IXUSR))
+        if (!(stat(binpath, &st)) && (st.st_mode & S_IXUSR))
             break;
         free(binpath);
         binpath = NULL;
@@ -67,7 +67,7 @@ int             check_current(char **cmd, pid_t pid)
 {
     struct stat st;
 
-    if(!(stat(cmd[0], &st)) && (st.st_mode & S_IXUSR))
+    if (!(stat(cmd[0], &st)) && (st.st_mode & S_IXUSR))
     {
         pid = fork();
         if (pid == 0)
@@ -78,7 +78,7 @@ int             check_current(char **cmd, pid_t pid)
         else if (pid < 0)
             ft_putstr("fork() failed.\n");
         wait(&pid);
-        return(1);
+        return (1);
     }
     return (-1);
 }
