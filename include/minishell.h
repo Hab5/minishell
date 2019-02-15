@@ -16,19 +16,6 @@
 
 char **g_env;
 
-typedef struct          s_all
-{
-    char *input;
-    char **command;
-}                       t_all;
-
-typedef struct          s_node
-{
-    char                *input;
-	int			        *position;
-    struct              s_node *next;
-}                       t_node;
-
 char                    *clean_input(char *input);
 char                    **split_input(char *input, char **cmd);
 
