@@ -89,6 +89,11 @@ int         main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     cmd = NULL;
+    if (env[0] == NULL)
+    {
+        ft_putstr("I need an env to work.\n");
+        return (0);
+    }
     welcome();
     init_env(env);
     while (1)
