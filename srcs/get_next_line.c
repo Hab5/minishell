@@ -42,7 +42,7 @@ int				clean_stock(char **line, char **stock)
 	*line = ft_strsub(*stock, 0, check_n(*stock));
 	temp = *stock;
 	*stock = ft_strsub(*stock, check_n(*stock) + 1, len - check_n(*stock));
-	free (temp);
+	free(temp);
 	return (1);
 }
 

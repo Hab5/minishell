@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/26 17:11:12 by mbellaic          #+#    #+#             */
+/*   Updated: 2019/02/26 17:11:15 by mbellaic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char		*clean_input(char *input)
 {
 	char	*cleanstr;
-	char 	*temp;
+	char	*temp;
 	int		i;
 	int		j;
 
@@ -30,14 +42,14 @@ char		*clean_input(char *input)
 	return (cleanstr);
 }
 
-char        **split_input(char *input, char **cmd)
+char		**split_input(char *input, char **cmd)
 {
-    int     i;
+	int		i;
 
-    i = 0;
-    while (input[i])
-        i++;
-    cmd = ft_strsplit(input, ' ');
-    cmd[i] = NULL;
-    return (cmd);
+	i = 0;
+	while (input[i])
+		i++;
+	cmd = ft_strsplit(input, ' ');
+	cmd[i] = NULL;
+	return (cmd);
 }
