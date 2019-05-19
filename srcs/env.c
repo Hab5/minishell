@@ -57,14 +57,13 @@ int			setenv_builtin(char **cmd)
 int			unset(char **cmd)
 {
 	int		i;
-
 	i = 0;
 	while (g_env[++i])
 	{
 		if (ft_strstr(g_env[i], cmd[1]) != 0)
 		{
 			free(g_env[i]);
-			g_env[i] = ft_strjoin(cmd[1], "=");
+			g_env[i] = ft_strdup(" ");
 			return (1);
 		}
 	}

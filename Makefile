@@ -1,50 +1,153 @@
-.PHONY: all, $(NAME), clean, fclean, re
+# ---------- #
+# Debug mode #
+# ---------- #
+
+DEBUG = no
+
+# --------- #
+# Directory #
+# --------- #
+
+LIBDIR = libft/
+PATHLIBDIR = libft/
+SRCDIR = srcs/
+OBJDIR = objs/
+INCDIR = include/
+INCLIBDIR = libft
+
+VPATH = srcs:\
+		srcs/prompt:\
+		srcs/prompt/edition:\
+		srcs/prompt/history:\
+		srcs/prompt/multiline:\
+		srcs/prompt/others:\
+		srcs/prompt/selection:\
+
+# ------------------ #
+# Compiler and flags #
+# ------------------ #
+
+CC = gcc
+ifeq ($(DEBUG), yes)
+	CFLAGS = -Wall -Wextra -g3
+else
+	CFLAGS = -Wall -Wextra -g3 -fsanitize=address
+endif
+CPPFLAGS = -I $(INCDIR) -I $(INCLIBDIR)
+LDLIBS = -lft
+LDFLAGS = -L $(PATHLIBDIR)
+LFLAGS = -lncurses
+
+# --------------- #
+# Different names #
+# --------------- #
 
 NAME = minishell
 
-NOC=\033[0m
-OKC=\033[32m
-ERC=\033[31m
-WAC=\033[33m
+SRCS_NAMES = main.c \
+			 cursortools.c \
+			 dlist.c \
+			 dlist_plus.c \
+			 editiontools.c \
+			 editline.c \
+			 history.c \
+			 prompt.c \
+			 keyhook.c \
+			 morekeyhook.c \
+			 del_keyhook.c \
+			 othertools.c \
+			 stalkcursor.c \
+			 terminit.c \
+			 multiline.c \
+			 text_selection.c \
+			 copy_paste.c \
+			 undo_selection.c \
+			 delete_selection.c \
+			 builtins.c \
+			 env.c \
+			 exec.c \
+			 expand.c \
+			 get_next_line.c \
+			 parser.c \
+			 utils.c
 
-cc = gcc
-C_FLAGS = -Wall -Wextra -Werror -g3
-FRAM = 
 
-OBJ_PATH = ./obj/
-LFT_PATH = ./libft/
-INC_PATH = ./include/
-SRC_PATH = ./srcs/
+OBJS_NAMES = $(SRCS_NAMES:.c=.o)
+HEADERS_NAMES = sh21.h minishell.h
+LIBS_NAMES = libft.a
 
-OBJ_NAME = $(SRC_NAME:.c=.o)
-INC_NAME = minishell.h
-SRC_NAME = builtins.c env.c exec.c get_next_line.c main.c parser.c utils.c
+OBJ = $(addprefix $(OBJDIR), $(OBJS_NAMES))
+HEADERS = $(addprefix $(INCDIR), $(HEADERS_NAMES))
+LIBS = $(addprefix $(PATHLIBDIR), $(LIBS_NAMES))
 
-SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
-OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
-INC = $(addprefix -I,$(INC_PATH))
+# ----------------- #
+# Command variables #
+# ----------------- #
 
-all: $(NAME)
+CREATE = mkdir -p
+DEL = /bin/rm -rf
+PRINT = printf
+PHONY = all clean cleans fclean re libs cleanlibs fcleanlibs lldb norm help
+REMOVE = "\r\033[K"
+FUNC = "%-60b\r"
 
-$(NAME): $(OBJ)
-		@echo
-		@make -C $(LFT_PATH)
-		@$(CC) -o $(NAME) -L $(LFT_PATH) -lft $^ -o $@
-		@echo "\033[32mMinishell ready.\033[0m"
+# PROGRESS BAR | Original author Cpirlot
+T = $(words $(OBJ))
+N = 0
+C = $(words $N)$(eval N := x $N)
+ECHO = "[`expr $C  '*' 100 / $T`%]"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-		@mkdir -p $(OBJ_PATH) 2> /dev/null || true
-		@$(CC) $(C_FLAGS) $(INC) -o $@ -c $<
-		@echo -n =
+# ----- #
+# Rules #
+# ----- #
 
-clean:
-		@make -C $(LFT_PATH) clean
-		@rm -rf $(OBJ_PATH)
-		@echo "\033[32mDeleting [./obj] directory.\033[0m"
+all : libs $(NAME)
 
-fclean: clean
-		@make -C $(LFT_PATH) fclean
-		@rm -f $(NAME)
-		@echo "\x1b[31mSUCESSFULLY CLEANED MINISHELL\x1b[31m"
+ifeq ($(DEBUG), yes)
+	@$(PRINT) "Debug mode : on\n"
+else
+	@$(PRINT) "Debug mode : off\n"
+endif
 
-re: fclean all
+$(NAME) : $(LIBS) $(OBJS_NAMES)
+	@$(CC) -o $@ $(OBJ) $(LDFLAGS) $(LDLIBS) $(LFLAGS) $(CFLAGS) $(CPPFLAGS)
+	@$(PRINT) $(REMOVE)"Executable built\n"
+
+libs :
+	@$(MAKE) -j3 -C $(LIBDIR)
+
+%.o : %.c $(HEADER)
+	@$(CREATE) $(OBJDIR)
+	@$(CC) -o $(OBJDIR)$@ -c $< $(CFLAGS) $(CPPFLAGS)
+
+clean : cleanlibs
+	@$(DEL) $(OBJDIR)
+	@$(PRINT) ".o file deleted\n"
+
+cleans :
+	@$(DEL) $(OBJDIR)
+	@$(PRINT) ".o file deleted\n"
+
+fclean : cleans fcleanlibs
+	@$(DEL) $(NAME)
+	@$(PRINT) "Executable destroyed\n"
+
+cleanlibs :
+	@$(MAKE) -C $(LIBDIR) clean
+
+fcleanlibs :
+	@$(MAKE) -C $(LIBDIR) fclean
+
+lldb :
+	@lldb ./$(NAME)
+
+norm :
+	@norminette ./$(NAME)
+
+re : fclean all
+
+help :
+	@$(PRINT) "Rules available : all, clean, cleans, fclean, re, libs, cleanlibs, fcleanlibs, lldb, norm and help\n"
+
+.PHONY : $(PHONY)
+
