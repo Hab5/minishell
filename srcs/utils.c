@@ -11,9 +11,15 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "sh21.h"
 
-void		welcome(void)
+int		welcome(char **env)
 {
+	if (env[0] == NULL)
+	{
+		ft_putstr("I need an env to work.\n");
+		return (-1);
+	}
 	ft_putstr("\033[1;32m");
 	ft_putstr("    __  ________   ___________ __  __________    __ \n");
 	usleep(100000);
@@ -33,6 +39,7 @@ void		welcome(void)
 	usleep(100000);
 	ft_putstr("                                        /_/ /____/  \n");
 	ft_putstr("\033[0m");
+	return (1);
 }
 
 void		init_env(char **env)
@@ -51,17 +58,26 @@ void		init_env(char **env)
 
 char		*search_env(char *var)
 {
+	char	*content;
 	char	*line;
 	int		i;
 
+	content = ft_strdup(var);
 	line = NULL;
 	i = -1;
 	while (g_env[++i])
-	{
 		if (ft_strstr(g_env[i], var) != 0)
 			line = ft_strdup(g_env[i]);
+	i = 0;
+	if (line != NULL)
+	{
+		while(line[i] && line[i] != '=')
+			i++;
+		free(content);
+		content = ft_strdup((line+(i+1)));
+		free(line);
 	}
-	return (line);
+	return (content == NULL) ? NULL : (content);
 }
 
 int			print_env(char **env)

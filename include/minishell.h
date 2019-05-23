@@ -45,10 +45,12 @@ int						setenv_builtin(char **cmd);
 int						unsetenv_builtin(char **cmd);
 int						env_builtin(char **cmd);
 
+char					**expand(char **cmd);
+
 int						echo(char **cmd);
 int						cd_builtin(char **cmd);
 
-void					welcome();
+int						welcome(char **env);
 void					prompt_mod(char **promptpath, int i, char cwd[]);
 void					print_prompt();
 void					free_arr(char **cmd);

@@ -3,51 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:09:10 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/05/04 00:32:45 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/23 23:23:14 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-void		prompt_mod(char **promptpath, int i, char cwd[])
-{
-	ft_putstr("\033[1;32m");
-	if (i > 2)
-	{
-		ft_putstr("[");
-		ft_putstr(promptpath[i - 2]);
-		ft_putstr("/");
-		ft_putstr(promptpath[i - 1]);
-		ft_putstr("]");
-		ft_putstr(" » ");
-	}
-	else
-	{
-		ft_putstr("[");
-		ft_putstr(cwd);
-		ft_putstr("]");
-		ft_putstr(" » ");
-	}
-	ft_putstr("\033[0m");
-}
-
-void		print_prompt(void)
-{
-	char	cwd[1024];
-	char	**promptpath;
-	int		i;
-
-	getcwd(cwd, 1023);
-	promptpath = ft_strsplit(cwd, '/');
-	i = 0;
-	while (promptpath[i])
-		i++;
-	prompt_mod(promptpath, i, cwd);
-	free_arr(promptpath);
-}
+#include "minishell.h"
+#include "sh21.h"
 
 char		**usr_prompt(char **cmd)
 {
@@ -56,7 +20,7 @@ char		**usr_prompt(char **cmd)
 
 	input = NULL;
 	cmd = NULL;
-	print_prompt();
+	//print_prompt();
 	if ((get_next_line(0, &input) != -1) && !ft_strequ(input, ""))
 	{
 		cleaninput = clean_input(input);
@@ -96,28 +60,31 @@ int			execute(char **cmd, char **env)
 int			main(int argc, char **argv, char **env)
 {
 	char	**cmd;
+	t_multi	*multi_input;
+	char	*input;
+	t_pos	pos;
 
-	(void)argc;
-	(void)argv;
+	multi_input = NULL;
+	input = NULL;
 	cmd = NULL;
-	if (!env[0])
-	{
-		if(!(env = (char **)malloc(sizeof(char *) * 2)))
-			return 0;
-		env[0] = ft_strdup("PATH=");
-		env[1] = NULL;
-		// ft_putstr("I need an env to work.\n");
-		// return (0);
-	}
+	if((welcome(env)) == -1)
+		return (0);
+	init_prompt(&pos);
 	init_env(env);
 	welcome();
 	while (1)
 	{
-		cmd = usr_prompt(cmd);
-		if (cmd)
+		if (argc && argv && env)
 		{
-			execute(cmd, env);
-			free_arr(cmd);
+			if ((input = prompt(multi_input, &pos)))
+			{
+				if ((input = clean_input(input)) && ((cmd = split_input(input, cmd))))
+				{
+					cmd = expand(cmd);
+					execute(cmd, env);
+					free_arr(cmd);
+				}
+			}
 		}
 	}
 	return (0);

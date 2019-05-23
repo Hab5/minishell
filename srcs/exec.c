@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:06:11 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/02/26 17:06:12 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/23 23:21:47 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "sh21.h"
 
 int				check_builtin(char **cmd)
 {
 	if (ft_strequ(cmd[0], "exit"))
+	{
+		default_term_mode();
 		exit(1);
+	}
 	if (ft_strequ(cmd[0], "echo"))
 		return (echo(cmd));
 	if (ft_strequ(cmd[0], "cd"))
@@ -35,7 +39,7 @@ void			get_paths(char ***bin)
 
 	pathline = search_env("PATH");
 	*bin = ft_strsplit(pathline, ':');
-	free(pathline);
+	//free(pathline);
 }
 
 char			*look_in_path(char **cmd)
@@ -47,9 +51,6 @@ char			*look_in_path(char **cmd)
 	int			i;
 
 	get_paths(&bin);
-	if (!bin[0])
-		return (NULL);
-	bin[0] += 5;
 	i = -1;
 	while (bin[++i])
 	{
@@ -61,7 +62,6 @@ char			*look_in_path(char **cmd)
 		free(binpath);
 		binpath = NULL;
 	}
-	bin[0] -= 5;
 	free_arr(bin);
 	return (binpath != NULL) ? binpath : NULL;
 }
