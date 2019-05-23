@@ -57,9 +57,7 @@ int			echo(char **cmd)
 	while (cmd[++i])
 	{
 		if (echo_path(cmd, i) != 1)
-		{
 			echo_basic(cmd, i, j);
-		}
 		j = 0;
 	}
 	ft_putstr("\n");

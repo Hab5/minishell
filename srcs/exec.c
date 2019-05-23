@@ -47,6 +47,8 @@ char			*look_in_path(char **cmd)
 	int			i;
 
 	get_paths(&bin);
+	if (!bin[0])
+		return (NULL);
 	bin[0] += 5;
 	i = -1;
 	while (bin[++i])

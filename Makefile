@@ -9,7 +9,7 @@ WAC=\033[33m
 
 cc = gcc
 C_FLAGS = -Wall -Wextra -Werror -g3
-FRAM = 
+FRAM =
 
 OBJ_PATH = ./obj/
 LFT_PATH = ./libft/

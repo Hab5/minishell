@@ -6,7 +6,7 @@
 /*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:09:10 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/02/26 17:09:11 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/04 00:32:45 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,17 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	cmd = NULL;
-	if (env[0] == NULL)
+	if (!env[0])
 	{
-		ft_putstr("I need an env to work.\n");
-		return (0);
+		if(!(env = (char **)malloc(sizeof(char *) * 2)))
+			return 0;
+		env[0] = ft_strdup("PATH=");
+		env[1] = NULL;
+		// ft_putstr("I need an env to work.\n");
+		// return (0);
 	}
-	welcome();
 	init_env(env);
+	welcome();
 	while (1)
 	{
 		cmd = usr_prompt(cmd);

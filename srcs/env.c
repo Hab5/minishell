@@ -37,7 +37,7 @@ int			setenv_builtin(char **cmd)
 	char	*temp;
 	int		i;
 
-	if (!cmd[2] || !cmd[1] || cmd[3])
+	if ((!cmd[1]) || (cmd[2] && cmd[3]))
 	{
 		ft_putstr("usage: setenv [NAME] [VALUE]\n");
 		return (1);
@@ -48,6 +48,8 @@ int			setenv_builtin(char **cmd)
 	while (g_env[i])
 		i++;
 	temp = ft_strjoin(cmd[1], "=");
+	if (!cmd[2])
+		cmd[2] = ft_strdup("");
 	g_env[i] = ft_strjoin(temp, cmd[2]);
 	g_env[i + 1] = NULL;
 	free(temp);

@@ -22,6 +22,8 @@ char		*clean_input(char *input)
 	j = 0;
 	i = 0;
 	temp = ft_strtrim(input);
+	if (!temp)
+		temp = ft_strdup("");
 	cleanstr = ft_strnew(ft_strlen(temp) + 1);
 	while (temp[i] != '\0')
 	{
