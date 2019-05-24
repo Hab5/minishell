@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/05/24 00:33:07 by mbellaic          #+#    #+#              #
+#    Updated: 2019/05/24 02:47:50 by mbellaic         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # ---------- #
 # Debug mode #
 # ---------- #
@@ -29,9 +41,9 @@ VPATH = srcs:\
 
 CC = gcc
 ifeq ($(DEBUG), yes)
-	CFLAGS = -Wall -Wextra -g3
+	CFLAGS = -Wall -Wextra -Werror
 else
-	CFLAGS = -Wall -Wextra -g3 -fsanitize=address
+	CFLAGS = -Wall -Wextra -Werror
 endif
 CPPFLAGS = -I $(INCDIR) -I $(INCLIBDIR)
 LDLIBS = -lft
@@ -64,6 +76,7 @@ SRCS_NAMES = main.c \
 			 undo_selection.c \
 			 delete_selection.c \
 			 builtins.c \
+			 cd.c \
 			 env.c \
 			 exec.c \
 			 expand.c \
@@ -124,15 +137,12 @@ clean : cleanlibs
 	@$(DEL) $(OBJDIR)
 	@$(PRINT) ".o file deleted\n"
 
-<<<<<<< HEAD
 cc = gcc
 C_FLAGS = -Wall -Wextra -Werror -g3
 FRAM =
-=======
 cleans :
 	@$(DEL) $(OBJDIR)
 	@$(PRINT) ".o file deleted\n"
->>>>>>> 3a4ec2f60118c7810fbbe747925575929f73c897
 
 fclean : cleans fcleanlibs
 	@$(DEL) $(NAME)

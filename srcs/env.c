@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:04:12 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/02/26 17:04:16 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/24 02:31:47 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			setenv_builtin(char **cmd)
 int			unset(char **cmd)
 {
 	int		i;
+
 	i = 0;
 	while (g_env[++i])
 	{

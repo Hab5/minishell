@@ -6,7 +6,7 @@
 /*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:06:11 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/05/23 23:21:47 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/24 00:20:46 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			get_paths(char ***bin)
 
 	pathline = search_env("PATH");
 	*bin = ft_strsplit(pathline, ':');
-	//free(pathline);
+	ft_strdel(&pathline);
 }
 
 char			*look_in_path(char **cmd)

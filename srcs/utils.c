@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:11:26 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/02/26 17:11:29 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/24 02:42:57 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "sh21.h"
 
-int		welcome(char **env)
+int			welcome(char **env)
 {
 	if (env[0] == NULL)
 	{
@@ -66,15 +66,17 @@ char		*search_env(char *var)
 	line = NULL;
 	i = -1;
 	while (g_env[++i])
-		if (ft_strstr(g_env[i], var) != 0)
+	{
+		if (ft_strncmp(g_env[i], var, ft_strlen(var)) == 0)
 			line = ft_strdup(g_env[i]);
+	}
 	i = 0;
 	if (line != NULL)
 	{
-		while(line[i] && line[i] != '=')
+		while (line[i] && line[i] != '=')
 			i++;
 		free(content);
-		content = ft_strdup((line+(i+1)));
+		content = ft_strdup((line + (i + 1)));
 		free(line);
 	}
 	return (content == NULL) ? NULL : (content);

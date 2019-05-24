@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbellaic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbellaic <mbellaic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:11:12 by mbellaic          #+#    #+#             */
-/*   Updated: 2019/02/26 17:11:15 by mbellaic         ###   ########.fr       */
+/*   Updated: 2019/05/24 02:41:52 by mbellaic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,11 @@ char		*clean_input(char *input)
 	{
 		if (temp[i] == ' ' || temp[i] == '\t')
 		{
-			cleanstr[j] = ' ';
-			j++;
+			cleanstr[j++] = ' ';
 			while (temp[i] == ' ' || temp[i] == '\t')
 				i++;
 		}
-		cleanstr[j] = temp[i];
-		j++;
-		i++;
+		cleanstr[j++] = temp[i++];
 	}
 	ft_strdel(&temp);
 	ft_strdel(&input);
@@ -52,6 +49,7 @@ char		**split_input(char *input, char **cmd)
 	while (input[i])
 		i++;
 	cmd = ft_strsplit(input, ' ');
+	ft_strdel(&input);
 	cmd[i] = NULL;
 	return (cmd);
 }
